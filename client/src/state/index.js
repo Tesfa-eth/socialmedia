@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const intitialState = {
+const initialState = {
   mode: "light",
   user: null,
   token: null,
@@ -19,7 +19,8 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
     },
     setLogout: (state) => {
-      (state.user = null), (state.token = null);
+      state.user = null;
+      state.token = null;
     },
     setFriends: (state, action) => {
       if (state.user) {
@@ -33,7 +34,7 @@ export const authSlice = createSlice({
     },
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
-        if (post._id === action.payload.post_id) return action.payload.post;
+        if (post._id === action.payload.post._id) return action.payload.post;
         return post;
       });
       state.posts = updatedPosts;
@@ -49,5 +50,4 @@ export const {
   setPosts,
   setPost,
 } = authSlice.actions;
-
 export default authSlice.reducer;
