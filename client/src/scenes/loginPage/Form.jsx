@@ -100,6 +100,7 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+      console.log(loggedIn.token);
       navigate("/home");
     }
   };
