@@ -33,7 +33,7 @@ const MyPostWidget = ({ picturePath }) => {
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
-  const { token } = useSelector((state) => state.token);
+  const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
@@ -46,7 +46,7 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-    const response = await fetch(`http//:localhost:3001/posts`, {
+    const response = await fetch(`http://localhost:3001/posts`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
@@ -68,7 +68,7 @@ const MyPostWidget = ({ picturePath }) => {
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
-            boarderRadius: "2rem",
+            borderRadius: "2rem",
             padding: "1rem 2rem",
           }}
         />
@@ -76,9 +76,9 @@ const MyPostWidget = ({ picturePath }) => {
       {isImage && (
         <Box
           border={`1px solid ${medium}`}
-          boarderRadius="5px"
+          borderRadius="5px"
           mt="1rem"
-          padding="1rem"
+          p="1rem"
         >
           <Dropzone
             acceptedFiles=".jpg,.jpeg,.png"
@@ -161,7 +161,7 @@ const MyPostWidget = ({ picturePath }) => {
             backgroundColor: post
               ? palette.primary.main
               : palette.background.alt,
-            borderRadius: "3rem",
+            borderradius: "3rem",
           }}
         >
           POST
