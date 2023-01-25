@@ -104,6 +104,7 @@ const PostWidget = ({
               </Typography>
             </Box>
           ))}
+          <Divider />
         </Box>
       )}
     </WidgetWrapper>
