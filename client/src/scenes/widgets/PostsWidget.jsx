@@ -19,7 +19,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  const getUserPost = async () => {
+  const getUserPosts = async () => {
     const response = await fetch(
       `http://localhost:3000/posts/${userId}/posts`,
       {
@@ -34,7 +34,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   useEffect(() => {
     if (isProfile) {
-      getUserPost();
+      getUserPosts();
     } else {
       getPosts();
     }
