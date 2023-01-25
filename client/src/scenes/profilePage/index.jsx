@@ -20,16 +20,40 @@ const ProfilePage = () => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = response.json();
+    const data = await response.json();
     setUser(data);
   };
   useEffect(() => {
     getUser();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!user) return <>Loading...</>;
+  if (!user) return null;
 
-  return <div>Profile page</div>;
+  return (
+    <Box>
+      <Navbar />
+      <Box
+        width="100%"
+        padding="2rem 6%"
+        display={isNonMobileScreens ? "flex" : "block"}
+        gap="2rem"
+        justifyContent="center"
+      >
+        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+          <UserWidget userId={userId} picturePath={user.picturePath} />
+          <Box m="2rem 0" />
+          <FriendListWidget userId={userId} />
+        </Box>
+        <Box
+          flexBasis={isNonMobileScreens ? "42%" : undefined}
+          mt={isNonMobileScreens ? undefined : "1rem"}
+        >
+          <Box m="0.2rem 0" />
+          <PostsWidget userId={userId} isProfile={true} />
+        </Box>
+      </Box>
+    </Box>
+  );
 };
 
 export default ProfilePage;
