@@ -12,7 +12,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const user = useSelector((state) => state.user);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -20,7 +20,9 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  const friends = user.friends;
+  const isFriend = Boolean(friends.find((friend) => friend._id === friendId));
+  //console.log(Boolean(isFriend));
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -36,13 +38,14 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
   };
+
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
         <UserImage image={userPicturePath} size="55px" />
         <Box
           onClick={() => {
-            navigate(`profile/${friendId}`);
+            navigate(`/profile/${friendId}`);
             navigate(0);
           }}
         >
