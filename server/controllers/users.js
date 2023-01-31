@@ -38,7 +38,9 @@ export const addRemoveFriend = async (req, res) => {
     const friend = await User.findById(friendId);
 
     /* remove friend if already exists */
-    if (user.friends.includes(friendId)) {
+    if (id == friendId) {
+      console.log("You can't add or remove yourself.");
+    } else if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
       friend.friends = friend.friends.filter((id) => id !== id);
     } else {
