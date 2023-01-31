@@ -16,6 +16,10 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "../../state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -49,6 +53,7 @@ const initialValuesLogin = {
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
+  const [isLoading, setIsLoading] = useState(false);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,6 +85,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
+    console.log("New trick");
     const loggedInResponse = await fetch(
       "https://socialmedia-backend-mg9a.onrender.com/auth/login",
       {
@@ -88,7 +94,18 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
+    // .catch((err) => {
+    //   console.log("Error");
+    //   console.log(err.message);
+    // NotificationManager.error("Error message", "Click me!", 5000, () => {
+    //   alert("callback");
+    // });
+    // });
     const loggedIn = await loggedInResponse.json();
+    NotificationManager.error("Error message", "Click me!", 5000, () => {
+      alert("callback");
+    });
+    console.log(loggedIn.msg);
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
@@ -103,8 +120,13 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      console.log("Delayed for 1 second.");
+    }, "3000");
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+    setIsLoading(false);
   };
 
   return (
@@ -250,7 +272,8 @@ const Form = () => {
                 "&:hover": { color: palette.primary.main },
               }}
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              {isLoading ? "Loading..." : isLogin ? "LOGIN" : "REGISTER"}
+              {/* {isLogin ? "LOGIN" : "REGISTER"} */}
             </Button>
             <Typography
               onClick={() => {
